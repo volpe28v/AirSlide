@@ -10,17 +10,26 @@ body {
 }
 
 #slide-place { float: left; width: 600px; height: 480px;}
-#slide { float: left; padding: 1px; border: 1px solid #dcdcdc;}
+#slide {
+  float: left;
+  -moz-box-shadow: 3px 3px 8px #666;
+  -webkit-box-shadow: 3px 3px 8px #666;
+}
+
 .slide-buttons { float: left; padding: 200px 5px; margin: 5px;}
 
 #slide-view {
   margin-left: auto;
   margin-right: auto;
+
 }
 
 #slide-core {
-  padding: 1px;
-  border: 1px solid #dcdcdc;
   height: 80%;
+  -moz-box-shadow: 5px 5px 10px #666;
+  -webkit-box-shadow: 5px 5px 10px #666;
 }
 
+#slide, #slide-core {
+  border: 1px solid #aaa;
+}
