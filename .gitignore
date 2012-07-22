@@ -16,4 +16,4 @@ node_modules
 npm-debug.log
 
 .DS_Store
-static/data/*
+static/data/*.png
