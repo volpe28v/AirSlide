@@ -7,10 +7,9 @@ $(function() {
 
     socket.on('get_list', function(list){
       console.log(list);
-      $('#list').hide();
-      $('#list').empty();
+
       for(var i = 0; i < list.length; i++){
-        var thumb = $('<img/>').attr('src', "/data/" + list[i]).attr('width',"160px");
+        var thumb = $('<li/>').append($('<img/>').attr('src', "/data/" + list[i]));
         thumb.click(function(){
           var file_name = list[i];
           return function(){
@@ -18,9 +17,10 @@ $(function() {
             console.log(file_name);
           }
         }());
-        $('#list').append(thumb);
+        $('#thumb-list').append(thumb);
       }
-      $('#list').fadeIn();
+      $('#slider-code').tinycarousel({display: 2});
+ 
     });
 
     socket.on('select_file',function(file_name){

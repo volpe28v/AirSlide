@@ -1,19 +1,46 @@
 <html>
   <head>
     <title>AirSlide owner</title>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="/javascripts/html5.js"></script>
+    <![endif]-->
+
     <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.tinycarousel.min.js"></script>
     <script type="text/javascript" src="/javascripts/owner.js"></script>
-    <link id="devhub-style" href="/stylesheets/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/air_slide.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/tinycarousel.css" media="screen" rel="stylesheet" type="text/css" />
     <style type="text/css">
     </style>
   </head>
-  <body>
-    <h2>AirSlide owner</h2>
 
-    <div id="list"></div>
-    <div id="slide"></div>
+  <body id="body-main" style="padding-top: 50px">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="/">AirSlide - owner</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div id="slider-code">
+          <a class="buttons prev" href="#">left</a>
+          <div class="viewport">
+            <ul id="thumb-list" class="overview"></ul>
+          </div>
+          <a class="buttons next" href="#">right</a>
+        </div>
+
+        <div id="slide"></div>
+      </div>
+    </div>
   </body>
 </html>
 
