@@ -1,5 +1,14 @@
-
 body {
   background-color: black;
 }
 
+#slide-main {
+  width: 670px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#slide-place { float: left; width: 600px; height: 480px;}
+#slide { float: left; padding: 1px; border: 1px solid #dcdcdc;}
+.slide-buttons { float: left; padding: 200px 5px; margin: 5px;}

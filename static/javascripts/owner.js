@@ -50,7 +50,7 @@ $(function() {
         }());
         $('#thumb-list').append(thumb);
       }
-      $('#slider-code').tinycarousel({display: 4});
+      $('#slider-code').tinycarousel({display: 3, duration: 500});
  
     });
 
