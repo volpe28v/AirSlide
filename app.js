@@ -41,7 +41,12 @@ io.sockets.on('connection', function(client) {
     client.on('get_list', function() {
       console.log('get_list');
       fs.readdir('./static/data',function(err, files){
-        client.emit('get_list', files);
+        var valid_files = [];
+        for (var i = 0; i < files.length; i++){
+          if ( files[i].match(/^\./) ){ continue; }
+          valid_files.push(files[i]);
+        }
+        client.emit('get_list', valid_files);
         console.log(files);
       });
     });
