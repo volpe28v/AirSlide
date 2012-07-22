@@ -38,6 +38,7 @@ $(function() {
 
       socket.emit('select_file',slideList.current());
 
+      $('#thumb-list').empty();
       for(var i = 0; i < list.length; i++){
         var thumb = $('<li/>').append($('<img/>').attr('src', "/data/" + list[i]));
         thumb.click(function(){
