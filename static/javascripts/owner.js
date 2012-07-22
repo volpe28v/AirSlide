@@ -29,11 +29,9 @@ $(function() {
     var socket = new io.connect('/');
     socket.on('connect', function() {
       socket.emit('get_list');
-      console.log('connect');
     });
 
     socket.on('get_list', function(list){
-      console.log(list);
       slideList.set(list);
 
       socket.emit('select_file',slideList.current());
@@ -46,7 +44,6 @@ $(function() {
           return function(){
             slideList.set_current(no);
             socket.emit('select_file',slideList.current());
-            console.log(slideList.current());
           }
         }());
         $('#thumb-list').append(thumb);
@@ -56,7 +53,6 @@ $(function() {
     });
 
     socket.on('select_file',function(file_name){
-      console.log(file_name);
       var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('width',"600px");
       $('#slide').hide();
       $('#slide').empty();
@@ -65,7 +61,6 @@ $(function() {
     });
 
     socket.on('disconnect', function(){
-      console.log('disconnect');
     });
 
     $('#slide').click(function(){
