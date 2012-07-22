@@ -7,6 +7,8 @@ $(function() {
 
     socket.on('get_list', function(list){
       console.log(list);
+      $('#list').hide();
+      $('#list').empty();
       for(var i = 0; i < list.length; i++){
         var thumb = $('<img/>').attr('src', "/data/" + list[i]).attr('width',"160px");
         thumb.click(function(){
@@ -18,6 +20,7 @@ $(function() {
         }());
         $('#list').append(thumb);
       }
+      $('#list').fadeIn();
     });
 
     socket.on('select_file',function(file_name){
