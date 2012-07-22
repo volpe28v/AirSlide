@@ -9,11 +9,11 @@ $(function() {
       console.log(file_name);
       if ( file_name == "" ){ return; }
 
-      var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('width',"80%");
-      $('#slide').hide();
-      $('#slide').empty();
-      $('#slide').append(slide_img);
-      $('#slide').fadeIn();
+      var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('id','slide-core');
+      $('#slide-view').hide();
+      $('#slide-view').empty();
+      $('#slide-view').append(slide_img);
+      $('#slide-view').fadeIn();
     });
 
     socket.on('disconnect', function(){
