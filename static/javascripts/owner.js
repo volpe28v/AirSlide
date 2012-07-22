@@ -11,6 +11,16 @@ var slideList = function(){
     },
     set_current: function(no){
       current_no = no;
+    },
+    next: function(){
+      current_no++;
+      if ( current_no >= file_list.length ){ current_no = file_list.length - 1; }
+      return this.current();
+    },
+    prev: function(){
+      current_no--;
+      if ( current_no < 0 ){ current_no = 0; }
+      return this.current();
     }
   };
 }();
@@ -55,6 +65,14 @@ $(function() {
 
     socket.on('disconnect', function(){
       console.log('disconnect');
+    });
+
+    $('#slide-prev').click(function(){
+      socket.emit('select_file',slideList.prev());
+    });
+
+    $('#slide-next').click(function(){
+      socket.emit('select_file',slideList.next());
     });
 
 });
