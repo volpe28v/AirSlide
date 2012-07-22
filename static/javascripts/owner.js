@@ -50,7 +50,7 @@ $(function() {
         }());
         $('#thumb-list').append(thumb);
       }
-      $('#slider-code').tinycarousel({display: 2});
+      $('#slider-code').tinycarousel({display: 4});
  
     });
 
@@ -65,6 +65,10 @@ $(function() {
 
     socket.on('disconnect', function(){
       console.log('disconnect');
+    });
+
+    $('#slide').click(function(){
+      socket.emit('select_file',slideList.next());
     });
 
     $('#slide-prev').click(function(){
