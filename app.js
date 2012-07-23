@@ -46,7 +46,7 @@ io.sockets.on('connection', function(client) {
           if ( files[i].match(/^\./) ){ continue; }
           valid_files.push(files[i]);
         }
-        client.emit('get_list', valid_files);
+        client.emit('get_list', valid_files.sort());
         console.log(files);
       });
     });
