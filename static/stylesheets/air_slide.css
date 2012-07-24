@@ -12,8 +12,6 @@ body {
 #slide-place { float: left; width: 600px; height: 480px;}
 #slide {
   float: left;
-  -moz-box-shadow: 3px 3px 8px #666;
-  -webkit-box-shadow: 3px 3px 8px #666;
 }
 
 .slide-buttons { float: left; padding: 200px 5px; margin: 5px;}
@@ -24,11 +22,17 @@ body {
 }
 
 #slide-core {
-  width: 80%;
+  width: 70%;
   -moz-box-shadow: 5px 5px 10px #666;
   -webkit-box-shadow: 5px 5px 10px #666;
 }
 
-#slide, #slide-core {
+#slide-core, #slide-preview {
   border: 1px solid #aaa;
+}
+
+#slide-preview {
+  width: 600px;
+  -moz-box-shadow: 3px 3px 8px #666;
+  -webkit-box-shadow: 3px 3px 8px #666;
 }

@@ -38,7 +38,7 @@ $(function() {
 
       $('#thumb-list').empty();
       for(var i = 0; i < list.length; i++){
-        var thumb = $('<li/>').append($('<img/>').attr('src', "/data/" + list[i]));
+        var thumb = $('<li/>').append($('<img/>').attr('src', "/data/" + list[i]).addClass("thumb"));
         thumb.click(function(){
           var no = i;
           return function(){
@@ -53,7 +53,7 @@ $(function() {
     });
 
     socket.on('select_file',function(file_name){
-      var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('width',"600px");
+      var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('id',"slide-preview");
       $('#slide').hide();
       $('#slide').empty();
       $('#slide').append(slide_img);
