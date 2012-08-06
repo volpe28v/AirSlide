@@ -1,16 +1,22 @@
 var slideList = function(){
+  var dir_name = null;
   var file_list = null;
   var current_no = 0;
 
   return {
-    set: function(list){
-      file_list = list;
+    set: function(slide_data){
+      current_no = 0;
+      file_list = slide_data.list;
+      dir_name = slide_data.dir;
     },
     current: function(){
-      return file_list[current_no];
+      return dir_name + "/" + file_list[current_no];
     },
     set_current: function(no){
       current_no = no;
+    },
+    get_by: function(no){
+      return dir_name + "/" + file_list[no];
     },
     next: function(){
       current_no++;
@@ -28,17 +34,39 @@ var slideList = function(){
 $(function() {
     var socket = new io.connect('/');
     socket.on('connect', function() {
+      socket.emit('get_select_file');
+      socket.emit('get_dir_list');
       socket.emit('get_list');
     });
 
-    socket.on('get_list', function(list){
-      slideList.set(list);
+    socket.on('connect_num', function(num) {
+      $("#connect_num").html(num);
+    });
 
-      socket.emit('select_file',slideList.current());
+    socket.on('get_dir_list', function(list){
+//      console.log(list);
+      $('#dir-list').empty();
+      for(var i = 0; i < list.length; i++){
+        var dir_item = $('<li/>').append($('<a/>').addClass('pointer-item').text(list[i]));
+        $('#dir-list').append(dir_item);
+
+        dir_item.click(function(){
+          var dir_name = list[i];
+          return function(){
+            socket.emit('select_dir',dir_name);
+          }
+        }());
+      }
+    });
+
+    socket.on('get_list', function(slide_data){
+//      console.log(slide_data);
+      var list = slide_data.list;
+      slideList.set(slide_data);
 
       $('#thumb-list').empty();
       for(var i = 0; i < list.length; i++){
-        var thumb = $('<li/>').append($('<img/>').attr('src', "/data/" + list[i]).addClass("thumb"));
+        var thumb = $('<li/>').append($('<img/>').attr('src', "/data/" + slideList.get_by(i)).addClass("thumb").addClass('pointer-item'));
         thumb.click(function(){
           var no = i;
           return function(){
@@ -53,11 +81,13 @@ $(function() {
     });
 
     socket.on('select_file',function(file_name){
-      var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('id',"slide-preview");
+      var slide_img = $('<img/>').attr('src', "/data/" + file_name).attr('id',"slide-preview").addClass('pointer-item');
       $('#slide').hide();
       $('#slide').empty();
       $('#slide').append(slide_img);
       $('#slide').fadeIn();
+
+//      console.log(file_name);
     });
 
     socket.on('disconnect', function(){

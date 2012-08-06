@@ -4,6 +4,10 @@ $(function() {
       socket.emit('get_select_file');
     });
 
+    socket.on('connect_num', function(num) {
+      $("#connect_num").html(num);
+    });
+
     socket.on('select_file',function(file_name){
       if ( file_name == "" ){ return; }
 
@@ -16,6 +20,5 @@ $(function() {
 
     socket.on('disconnect', function(){
     });
-
 });
  

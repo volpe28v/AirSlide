@@ -22,7 +22,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="brand" href="/">AirSlide - owner</a>
+          <a class="brand" href="/">AirSlide - owner (<span id="connect_num">0</span>)</a>
         </div>
       </div>
     </div>
@@ -37,12 +37,18 @@
           <a class="buttons next btn btn-inverse" href="#">＞</a>
         </div>
 
+        <div class="span3">
+        <ul id="dir-list" class="nav nav-pills nav-stacked"></ul>
+        </div>
+
+        <div class="span9">
         <div id="slide-main">
           <button id="slide-prev" class="slide-buttons btn btn-inverse">＜</button>
           <div id="slide-place">
             <div id="slide"></div>
           </div>
           <button id="slide-next" class="slide-buttons btn btn-inverse">＞</button>
+        </div>
         </div>
       </div>
     </div>
