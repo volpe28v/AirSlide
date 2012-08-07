@@ -48,6 +48,8 @@ io.sockets.on('connection', function(client) {
        if ( current_dir_name == ""){return};
       console.log('get_list');
       fs.readdir('./static/data/' + current_dir_name ,function(err, files){
+        if (files == null){return};
+
         var valid_files = [];
         for (var i = 0; i < files.length; i++){
           if ( files[i].match(/^\./) ){ continue; }
