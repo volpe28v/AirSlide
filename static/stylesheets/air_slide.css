@@ -41,3 +41,6 @@ body {
   cursor: pointer;
 }
 
+#connect_num {
+  color: yellow;
+}

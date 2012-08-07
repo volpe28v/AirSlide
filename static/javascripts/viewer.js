@@ -5,7 +5,12 @@ $(function() {
     });
 
     socket.on('connect_num', function(num) {
-      $("#connect_num").html(num);
+      var person_symbol = "";
+      for(var i = 0; i < num; i++){
+        person_symbol += "λ";
+      }
+
+      $("#connect_num").html(person_symbol);
     });
 
     socket.on('select_file',function(file_name){

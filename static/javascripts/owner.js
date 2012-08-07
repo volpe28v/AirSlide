@@ -40,11 +40,15 @@ $(function() {
     });
 
     socket.on('connect_num', function(num) {
-      $("#connect_num").html(num);
+      var person_symbol = "";
+      for(var i = 0; i < num; i++){
+        person_symbol += "λ";
+      }
+
+      $("#connect_num").html(person_symbol);
     });
 
     socket.on('get_dir_list', function(list){
-//      console.log(list);
       $('#dir-list').empty();
       for(var i = 0; i < list.length; i++){
         var dir_item = $('<li/>').append($('<a/>').addClass('pointer-item').text(list[i]));
@@ -60,7 +64,6 @@ $(function() {
     });
 
     socket.on('get_list', function(slide_data){
-//      console.log(slide_data);
       var list = slide_data.list;
       slideList.set(slide_data);
 
