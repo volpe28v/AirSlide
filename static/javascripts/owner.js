@@ -24,19 +24,20 @@ var slideList = function(){
       current_no++;
       if ( current_no >= file_list.length ){ current_no = file_list.length - 1; }
 
-      var start_pos = current_no + 1;
-      if ( start_pos > file_list.length - 4 ){ start_pos = file_list.length - 4; }
-      action_handler(start_pos);
+      this._call_action_handler();
       return this.current();
     },
     prev: function(){
       current_no--;
       if ( current_no < 0 ){ current_no = 0; }
 
+      this._call_action_handler();
+      return this.current();
+    },
+    _call_action_handler: function(){
       var start_pos = current_no + 1;
       if ( start_pos > file_list.length - 4 ){ start_pos = file_list.length - 4; }
       action_handler(start_pos);
-      return this.current();
     }
   };
 }();
