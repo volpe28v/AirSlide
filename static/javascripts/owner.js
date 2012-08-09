@@ -2,12 +2,14 @@ var slideList = function(){
   var dir_name = null;
   var file_list = null;
   var current_no = 0;
+  var action_handler = null;
 
   return {
-    set: function(slide_data){
+    set: function(slide_data, handler){
       current_no = 0;
       file_list = slide_data.list;
       dir_name = slide_data.dir;
+      action_handler = handler;
     },
     current: function(){
       return dir_name + "/" + file_list[current_no];
@@ -21,11 +23,19 @@ var slideList = function(){
     next: function(){
       current_no++;
       if ( current_no >= file_list.length ){ current_no = file_list.length - 1; }
+
+      var start_pos = current_no + 1;
+      if ( start_pos > file_list.length - 4 ){ start_pos = file_list.length - 4; }
+      action_handler(start_pos);
       return this.current();
     },
     prev: function(){
       current_no--;
       if ( current_no < 0 ){ current_no = 0; }
+
+      var start_pos = current_no + 1;
+      if ( start_pos > file_list.length - 4 ){ start_pos = file_list.length - 4; }
+      action_handler(start_pos);
       return this.current();
     }
   };
@@ -65,7 +75,9 @@ $(function() {
 
     socket.on('get_list', function(slide_data){
       var list = slide_data.list;
-      slideList.set(slide_data);
+      slideList.set(slide_data,function(no){
+        $('#slider-code').tinycarousel_move(no);
+      });
 
       $('#thumb-list').empty();
       for(var i = 0; i < list.length; i++){
@@ -80,7 +92,6 @@ $(function() {
         $('#thumb-list').append(thumb);
       }
       $('#slider-code').tinycarousel({display: 1, duration: 500});
- 
     });
 
     socket.on('select_file',function(file_name){
