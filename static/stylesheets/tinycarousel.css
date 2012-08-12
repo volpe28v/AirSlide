@@ -11,7 +11,14 @@
 
 .thumb {
   padding: 1px;
-  border: 1px solid #aaa;
   width: 160px;
+}
+
+.normal-thumb {
+  border: 1px solid #aaa;
+}
+
+.current-thumb {
+  border: 1px solid yellow;
 }
 
