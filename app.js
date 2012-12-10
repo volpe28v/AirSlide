@@ -38,7 +38,7 @@ io.sockets.on('connection', function(client) {
 
     client.emit('connect_num', connect_num);
     client.broadcast.emit('connect_num', connect_num);
- 
+
     client.on('message', function(msg) {
         client.broadcast.emit('message', msg);
         console.log(msg);
@@ -61,13 +61,13 @@ io.sockets.on('connection', function(client) {
         call_back(slide_data);
       });
     };
-        
+
     client.on('get_list', function() {
       get_current_list(function(slide_data){
         client.emit('get_list', slide_data);
       });
     });
- 
+
     client.on('select_dir', function(dir_name) {
       console.log('select_dir');
       current_dir_name = dir_name;
@@ -76,7 +76,7 @@ io.sockets.on('connection', function(client) {
         client.broadcast.emit('get_list', slide_data);
       });
     });
- 
+
     client.on('get_dir_list', function() {
       console.log('get_dir_list');
       fs.readdir('./static/data',function(err, files){
@@ -89,7 +89,7 @@ io.sockets.on('connection', function(client) {
         console.log(files);
       });
     });
- 
+
     client.on('select_file', function(file_name){
       current_file_name = file_name;
       client.emit('select_file', current_file_name);
