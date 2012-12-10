@@ -30,6 +30,17 @@ $ node app.js -p 3000
 </pre>
 * -p ポート番号
 
+## 使う
+* オーナーサイト(スライドを操作する側)
+<pre>
+http://localhost:3000/owner
+</pre>
+
+* ビューアサイト(スライドを閲覧する側)
+<pre>
+http://localhost:3000/viewer
+</pre>
+
 ## License
 (The MIT License)
 
