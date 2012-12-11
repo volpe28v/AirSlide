@@ -131,5 +131,11 @@ $(function() {
       socket.emit('select_file',slideList.next());
     });
 
+    $('#slide').mousemove(function(e){
+      var x = parseInt(e.pageX - $(this).position().left);
+      var y = parseInt(e.pageY - $(this).position().top);
+      var width_per = parseInt(x / $(this).width() * 100);
+      var height_per= parseInt(y / $(this).height() * 100);
+      $('#mouse_result').text( "x: " + x + " y: " + y + "  w: " + width_per + "% h: " + height_per + "%");
+    });
 });
- 

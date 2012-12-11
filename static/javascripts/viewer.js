@@ -20,10 +20,24 @@ $(function() {
       $('#slide-view').hide();
       $('#slide-view').empty();
       $('#slide-view').append(slide_img);
-      $('#slide-view').fadeIn();
+      $('#slide-view').fadeIn('normal',function(){
+        $('#slide-view').width($('#slide-core').width());
+        $('#slide-view').height($('#slide-core').height());
+        $('#slide-view').append($cursol);
+      });
     });
 
     socket.on('disconnect', function(){
     });
+
+    var $cursol = $('<div/>').css("height",14)
+                             .css("width",14)
+                             .css("border-radius",7)
+                             .css("background-color","red")
+                             .css("position","absolute");
+  //  $('#slide-view').append($cursol);
+    $cursol.css("top",100)
+           .css("left",200);
+
 });
- 
+
