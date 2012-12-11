@@ -112,8 +112,6 @@ $(function() {
       $('#slide').empty();
       $('#slide').append(slide_img);
       $('#slide').fadeIn();
-
-//      console.log(file_name);
     });
 
     socket.on('disconnect', function(){
@@ -139,5 +137,9 @@ $(function() {
 //      $('#mouse_result').text( "x: " + x + " y: " + y + "  w: " + x_per + "% h: " + y_per + "%");
 
       socket.emit('mouse_pointer',{ x_per: x_per ,y_per: y_per });
+    });
+
+    $('#slide').mouseout(function(e){
+      socket.emit('mouse_pointer',{ x_per: -1 ,y_per: -1 });
     });
 });
