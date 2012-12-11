@@ -50,5 +50,6 @@ body {
   border-radius: 7px;
   background-color: red;
   position: absolute;
+  opacity: 0.7;
 }
 
