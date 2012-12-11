@@ -101,11 +101,15 @@ io.sockets.on('connection', function(client) {
       client.emit('select_file', current_file_name);
     });
 
+    client.on('mouse_pointer', function(pos){
+      client.broadcast.emit('mouse_pointer', pos);
+    });
+
     client.on('disconnect', function() {
-        console.log('disconnect');
-        connect_num--;
-        client.emit('connect_num', connect_num);
-        client.broadcast.emit('connect_num', connect_num);
+      console.log('disconnect');
+      connect_num--;
+      client.emit('connect_num', connect_num);
+      client.broadcast.emit('connect_num', connect_num);
     });
 });
 

@@ -134,8 +134,10 @@ $(function() {
     $('#slide').mousemove(function(e){
       var x = parseInt(e.pageX - $(this).position().left);
       var y = parseInt(e.pageY - $(this).position().top);
-      var width_per = parseInt(x / $(this).width() * 100);
-      var height_per= parseInt(y / $(this).height() * 100);
-      $('#mouse_result').text( "x: " + x + " y: " + y + "  w: " + width_per + "% h: " + height_per + "%");
+      var x_per = parseInt(x / $(this).width() * 1000);
+      var y_per = parseInt(y / $(this).height() * 1000);
+//      $('#mouse_result').text( "x: " + x + " y: " + y + "  w: " + x_per + "% h: " + y_per + "%");
+
+      socket.emit('mouse_pointer',{ x_per: x_per ,y_per: y_per });
     });
 });

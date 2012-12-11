@@ -22,7 +22,6 @@ body {
 }
 
 #slide-core {
-//  width: 70%;
   -moz-box-shadow: 5px 5px 10px #666;
   -webkit-box-shadow: 5px 5px 10px #666;
 }
@@ -43,5 +42,13 @@ body {
 
 #connect_num {
   color: yellow;
+}
+
+#viewer-pointer {
+  height: 14px;
+  width:  14px;
+  border-radius: 7px;
+  background-color: red;
+  position: absolute;
 }
 
