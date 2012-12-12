@@ -26,11 +26,12 @@ $(function() {
     $('#slide-view').empty();
     $('#slide-view').append($slide_img);
     $slide_img.width($(window).width() * 0.8);
-    $cursol.hide();
+
     $('#slide-view').fadeIn('normal',function(){
       $('#slide-view').width($slide_img.width());
       $('#slide-view').height($slide_img.height());
       $('#slide-view').append($cursol);
+      $cursol.hide();
     });
   });
 
