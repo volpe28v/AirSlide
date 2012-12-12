@@ -30,29 +30,29 @@ $(function() {
     $('#slide-view').fadeIn('normal',function(){
       $('#slide-view').width($slide_img.width());
       $('#slide-view').height($slide_img.height());
-      $('#slide-view').append($cursol);
-      $cursol.hide();
+      $('#slide-view').append($cursor);
+      $cursor.hide();
     });
   });
 
   socket.on('disconnect', function(){
   });
 
-  var $cursol = $('<div/>').attr("id","viewer-pointer")
+  var $cursor = $('<div/>').attr("id","viewer-pointer")
                            .css("top", -1)
                            .css("left", -1)
                            .css("display","none");
 
   function updateCursolPosition(x_per, y_per){
     if ( x_per == -1 ){
-      $cursol.fadeOut("slow");
+      $cursor.fadeOut("slow");
       return;
     }
 
-    $cursol.css("top",$('#slide-core').height() * y_per / 1000)
+    $cursor.css("top",$('#slide-core').height() * y_per / 1000)
            .css("left",$('#slide-core').width() * x_per / 1000);
-    if ( $cursol.css("display") == "none" ){
-      $cursol.fadeIn("slow");
+    if ( $cursor.css("display") == "none" ){
+      $cursor.fadeIn("slow");
     }
   }
 
