@@ -49,8 +49,8 @@ $(function() {
       return;
     }
 
-    var top_pos  = ($('#slide-core').height() * y_per / 1000) - $cursor.height()/2;
-    var left_pos = ($('#slide-core').width()  * x_per / 1000) - $cursor.width()/2;
+    var top_pos  = ($('#slide-core').height() * y_per / 1000) - $cursor.height()/2 + 1;
+    var left_pos = ($('#slide-core').width()  * x_per / 1000) - $cursor.width()/2 + 1;
     $cursor.css("top",top_pos)
            .css("left",left_pos);
     if ( $cursor.css("display") == "none" ){
