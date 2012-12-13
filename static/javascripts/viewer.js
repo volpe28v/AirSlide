@@ -44,13 +44,15 @@ $(function() {
                            .css("display","none");
 
   function updateCursolPosition(x_per, y_per){
-    if ( x_per == -1 ){
+    if ( x_per < 0 || y_per < 0){
       $cursor.fadeOut("slow");
       return;
     }
 
-    $cursor.css("top",$('#slide-core').height() * y_per / 1000)
-           .css("left",$('#slide-core').width() * x_per / 1000);
+    var top_pos  = ($('#slide-core').height() * y_per / 1000) - 7;
+    var left_pos = ($('#slide-core').width()  * x_per / 1000) - 7;
+    $cursor.css("top",top_pos)
+           .css("left",left_pos);
     if ( $cursor.css("display") == "none" ){
       $cursor.fadeIn("slow");
     }
