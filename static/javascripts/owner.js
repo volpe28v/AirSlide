@@ -38,9 +38,21 @@ var slideList = function(){
       this._call_action_handler();
       return this.current();
     },
+    first: function(){
+      current_no = 2;
+
+      this._call_action_handler();
+      return this.current();
+    },
+    last: function(){
+      current_no = file_list.length - 1;
+
+      this._call_action_handler();
+      return this.current();
+    },
     _call_action_handler: function(){
-      var start_pos = current_no + 1;
-      if ( start_pos > file_list.length - 4 ){ start_pos = file_list.length - 4; }
+      var start_pos = current_no - 1;
+      if ( start_pos > file_list.length - 5 ){ start_pos = file_list.length - 5; }
       move_action_handler(start_pos);
     }
   };
@@ -138,6 +150,15 @@ $(function() {
 
       socket.emit('mouse_pointer',{ x_per: x_per ,y_per: y_per });
     });
+
+    $('#slide-first').click(function(){
+      slideList.first();
+    });
+
+    $('#slide-last').click(function(){
+      slideList.last();
+    });
+
 
     $('#slide').mouseout(function(e){
       socket.emit('mouse_pointer',{ x_per: -1 ,y_per: -1 });

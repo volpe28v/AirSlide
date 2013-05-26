@@ -27,30 +27,41 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div id="slider-code">
-          <a class="buttons prev btn btn-inverse" href="#">＜</a>
-          <div class="viewport">
-            <ul id="thumb-list" class="overview"></ul>
-          </div>
-          <a class="buttons next btn btn-inverse" href="#">＞</a>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <a id="slide-first" class="buttons btn btn-inverse" style="float: left;" href="#">＜＜</a>
+          <span id="slider-code">
+            <a class="buttons prev btn btn-inverse" href="#">＜</a>
+            <span class="viewport">
+              <ul id="thumb-list" class="overview"></ul>
+            </span>
+            <a class="buttons next btn btn-inverse" href="#">＞</a>
+          </span>
+          <a id="slide-last" class="buttons btn btn-inverse" href="#">＞＞</a>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row-fluid">
+        <div class="span2">
+          <ul id="dir-list" class="nav nav-pills nav-stacked"></ul>
         </div>
 
-        <div class="span3">
-        <ul id="dir-list" class="nav nav-pills nav-stacked"></ul>
-        </div>
-
-        <div class="span9">
-        <div id="slide-main">
-          <button id="slide-prev" class="slide-buttons btn btn-inverse">＜</button>
-          <div id="slide-place">
-            <div id="slide"></div>
+        <div class="span8">
+          <div id="slide-main">
+            <button id="slide-prev" class="slide-buttons btn btn-inverse">＜</button>
+            <div id="slide-place">
+              <div id="slide"></div>
+            </div>
+            <button id="slide-next" class="slide-buttons btn btn-inverse">＞</button>
           </div>
-          <button id="slide-next" class="slide-buttons btn btn-inverse">＞</button>
+          <div id="mouse_result"></div>
         </div>
+        <div class="span2">
+
         </div>
-        <div id="mouse_result"></div>
       </div>
     </div>
   </body>

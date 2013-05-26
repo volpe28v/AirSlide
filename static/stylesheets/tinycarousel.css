@@ -1,6 +1,6 @@
 /* Tiny Carousel */
-#slider-code { height: 125px; overflow:hidden; padding: 0 0 10px;   }
-#slider-code .viewport { float: left; width: 862px; height: 125px; overflow: hidden; position: relative; }
+#slider-code { height: 128px; overflow:hidden; padding: 0 0 10px;   }
+#slider-code .viewport { float: left; width: 1040px; height: 128px; overflow: hidden; position: relative; }
 #slider-code .buttons { float: left; padding: 44px 5px; margin: 5px;}
 #slider-code .disable { visibility: hidden; }
 #slider-code .overview { list-style: none; position: absolute; padding: 0; margin: 0; width: 100%; left: 0 top: 0; }
@@ -19,6 +19,6 @@
 }
 
 .current-thumb {
-  border: 1px solid yellow;
+  border: 3px solid yellow;
 }
 
