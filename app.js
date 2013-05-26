@@ -30,7 +30,7 @@ app.get('/viewer', function(req, res) {
 app.listen(port);
 
 var connect_num = 0;
-var current_file_name = "";
+var current_file_info = null;
 var current_dir_name = "";
 io.sockets.on('connection', function(client) {
     console.log("connection!!!");
@@ -45,8 +45,18 @@ io.sockets.on('connection', function(client) {
     });
 
     var get_current_list = function(call_back){
-       if ( current_dir_name == ""){return};
       console.log('get_list');
+      if ( current_dir_name == ""){return};
+      if ( current_dir_name.match(/\.pdf$/) ){
+        console.log('get_list for pdf');
+        get_current_list_pdf(call_back);
+      }else{
+        console.log('get_list for jpg');
+        get_current_list_jpg(call_back);
+      }
+    };
+
+    var get_current_list_jpg = function(call_back){
       fs.readdir('./static/data/' + current_dir_name ,function(err, files){
         if (files == null){return};
 
@@ -57,10 +67,16 @@ io.sockets.on('connection', function(client) {
         }
 
         var sorted_valid_files = valid_files.sort();
-        var slide_data = { dir:current_dir_name, list:sorted_valid_files};
+        var slide_data = { type: "jpg", dir: current_dir_name, list: sorted_valid_files};
         call_back(slide_data);
       });
     };
+
+    var get_current_list_pdf = function(call_back){
+      var slide_data = { type: "pdf", path: current_dir_name };
+      call_back(slide_data);
+    };
+
 
     client.on('get_list', function() {
       get_current_list(function(slide_data){
@@ -90,15 +106,15 @@ io.sockets.on('connection', function(client) {
       });
     });
 
-    client.on('select_file', function(file_name){
-      current_file_name = file_name;
-      client.emit('select_file', current_file_name);
-      client.broadcast.emit('select_file', current_file_name);
+    client.on('select_file', function(file_info){
+      current_file_info = file_info;
+      client.emit('select_file', current_file_info);
+      client.broadcast.emit('select_file', current_file_info);
     });
 
     client.on('get_select_file', function(){
-      if ( current_file_name == ""){return};
-      client.emit('select_file', current_file_name);
+      if ( current_file_info == null){return};
+      client.emit('select_file', current_file_info);
     });
 
     client.on('mouse_pointer', function(pos){
