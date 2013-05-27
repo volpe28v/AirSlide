@@ -54,7 +54,7 @@ var slideListPdf = function(){
     },
     get_core_dom: function(){
       var page = page_list[current_no];
-      var scale = 1.0;
+      var scale = 1.5;
       var viewport = page.getViewport(scale);
       var canvas = $('<canvas>');
       var context = canvas.get(0).getContext('2d');
