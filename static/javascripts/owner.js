@@ -56,6 +56,13 @@ var slideListJpg = function(){
     get_num: function(){
       return file_list.length;
     },
+    get_all_dom: function(call_back){
+      var all_dom = [];
+      for (i = 0; i < file_list.length; i++){
+        all_dom.push(this.get_dom(i));
+      }
+      call_back(all_dom);
+    },
     get_dom: function(i){
       return $('<img/>').attr('src', "/data/" + this.get_by(i));
     },
@@ -77,11 +84,13 @@ var slideListPdf = function(){
   var current_no = 0;
   var move_action_handler = null;
   var select_action_handler = null;
+  var render_progress = 0;
 
   return {
     set: function(slide_data, move_handler, select_handler, call_back){
       file_name = slide_data.path;
       current_no = 0;
+      render_progress = 0;
       page_list = [];
       move_action_handler = move_handler;
       select_action_handler = select_handler;
@@ -101,11 +110,11 @@ var slideListPdf = function(){
         push_page(pdf, page_number++, function push_page_complete(){
           if (page_number > pdf.numPages){
             call_back();
-            console.log("complete psuh_page");
+            //console.log("complete psuh_page");
             return;
+          }else{
+            push_page(pdf, page_number++, push_page_complete);
           }
-
-          push_page(pdf, page_number++, push_page_complete);
         });
       });
     },
@@ -146,7 +155,22 @@ var slideListPdf = function(){
     get_num: function(){
       return file_length;
     },
-    get_dom: function(i){
+    get_all_dom: function(call_back){
+      var all_dom = [];
+      var page_num = 0;
+      var that = this;
+
+      that.get_dom(page_num++,function push_dom(dom){
+        all_dom.push(dom);
+        if (page_num >= file_length){
+          call_back(all_dom);
+          return;
+        }else{
+          that.get_dom(page_num++,push_dom);
+        }
+      });
+    },
+    get_dom: function(i,call_back){
       var page = page_list[i];
       var scale = 0.3;
       var viewport = page.getViewport(scale);
@@ -155,8 +179,11 @@ var slideListPdf = function(){
       canvas.attr('height', viewport.height);
       canvas.attr('width', viewport.width);
 
-      page.render({canvasContext: context, viewport: viewport});
-      return canvas;
+      var that = this;
+      page.render({canvasContext: context, viewport: viewport}).then(function(){
+        call_back(canvas);
+        that._update_render_progress();
+      });
     },
     get_preview_dom: function(info){
       var page = page_list[info.no];
@@ -174,6 +201,16 @@ var slideListPdf = function(){
       var start_pos = current_no - 1;
       if ( start_pos > file_length - 5 ){ start_pos = file_length - 5; }
       move_action_handler(start_pos);
+    },
+    _update_render_progress: function(){
+      render_progress++;
+      //TODO: プログレスバーの更新はView側に移動すること
+      $('#progress_bar').fadeIn('fast');
+      $('#loading_progress_bar').css('width',(render_progress * 100 / (file_length ) + "%"));
+
+      if (render_progress == file_length){
+        $('#progress_bar').fadeOut('slow');
+      }
     }
   };
 }();
@@ -214,7 +251,7 @@ $(function() {
     if ( slide_data.type == "jpg" ){
       slideList = slideListJpg;
     } else if ( slide_data.type == "pdf" ){
-      console.log("get_list for pdf");
+      //console.log("get_list for pdf");
       slideList = slideListPdf;
     }
     slideList.set(slide_data,
@@ -230,23 +267,26 @@ $(function() {
         var slide_num = slideList.get_num();
 
         $('#thumb-list').empty();
-        for(var i = 0; i < slide_num; i++){
-          var thumb = $('<li/>').append(slideList.get_dom(i).attr('id',"thumb_" + i).addClass("thumb normal-thumb").addClass("pointer-item"));
-          thumb.click(function(){
-            var no = i;
-            return function(){
-              slideList.set_current(no);
-              socket.emit('select_file',slideList.current());
-            }
-          }());
-          $('#thumb-list').append(thumb);
-        }
-        $('#slider-code').tinycarousel({display: 1, duration: 500});
+        slideList.get_all_dom(function(all_dom){
+          for(var i = 0; i < all_dom.length; i++){
+            var thumb = $('<li/>').append(all_dom[i].attr('id',"thumb_" + i).addClass("thumb normal-thumb").addClass("pointer-item"));
+            thumb.click(function(){
+              var no = i;
+              return function(){
+                slideList.set_current(no);
+                socket.emit('select_file',slideList.current());
+              }
+            }());
+            $('#thumb-list').append(thumb);
+          }
+          $('#slider-code').tinycarousel({display: 1, duration: 500});
+        });
       }
     );
   });
 
   socket.on('select_file',function(file_info){
+    if (slideList == null){ return; }
     var slide_img = $(slideList.get_preview_dom(file_info)).attr('id',"slide-preview").addClass('pointer-item');
     $('#slide').hide();
     $('#slide').empty();
