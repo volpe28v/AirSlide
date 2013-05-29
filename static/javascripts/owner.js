@@ -7,7 +7,7 @@ var slideListJpg = function(){
   var select_action_handler = null;
 
   return {
-    set: function(slide_data, move_handler, select_handler, call_back){
+    set: function(slide_data, move_handler, select_handler, loading_handler, call_back){
       current_no = 0;
       file_list = slide_data.list;
       dir_name = slide_data.dir;
@@ -84,16 +84,18 @@ var slideListPdf = function(){
   var current_no = 0;
   var move_action_handler = null;
   var select_action_handler = null;
+  var loading_action_handler = null;
   var render_progress = 0;
 
   return {
-    set: function(slide_data, move_handler, select_handler, call_back){
+    set: function(slide_data, move_handler, select_handler, loading_handler, call_back){
       file_name = slide_data.path;
       current_no = 0;
       render_progress = 0;
       page_list = [];
       move_action_handler = move_handler;
       select_action_handler = select_handler;
+      loading_action_handler = loading_handler;
 
       PDFJS.disableWorker = true;
       PDFJS.getDocument("/data/" + file_name).then(function(pdf) {
@@ -182,7 +184,7 @@ var slideListPdf = function(){
       var that = this;
       page.render({canvasContext: context, viewport: viewport}).then(function(){
         call_back(canvas);
-        that._update_render_progress();
+        loading_action_handler(++render_progress, file_length);
       });
     },
     get_preview_dom: function(info){
@@ -201,16 +203,6 @@ var slideListPdf = function(){
       var start_pos = current_no - 1;
       if ( start_pos > file_length - 5 ){ start_pos = file_length - 5; }
       move_action_handler(start_pos);
-    },
-    _update_render_progress: function(){
-      render_progress++;
-      //TODO: プログレスバーの更新はView側に移動すること
-      $('#progress_bar').fadeIn('fast');
-      $('#loading_progress_bar').css('width',(render_progress * 100 / (file_length ) + "%"));
-
-      if (render_progress == file_length){
-        $('#progress_bar').fadeOut('slow');
-      }
     }
   };
 }();
@@ -256,14 +248,27 @@ $(function() {
     }
     slideList.set(slide_data,
       function(no){ // move_handler
+        // for thumb
         $('#slider-code').tinycarousel_move(no);
       },
       function(no, total){ // select_hander
+        // for thumb
         $('.thumb').addClass("normal-thumb");
         $('.thumb').removeClass("current-thumb");
         $('#thumb_' + no).addClass("current-thumb");
+        // for progress num
         $('#progress_num').html((no + 1) + "/" + total);
+        // for server
         socket.emit('select_file',slideList.current());
+      },
+      function(progress, total){ // loading_handler
+        // for progress bar 
+        $('#progress_bar').fadeIn('fast');
+        $('#loading_progress_bar').css('width',(progress * 100 / (total) + "%"));
+
+        if (progress == total){
+          $('#progress_bar').fadeOut('slow');
+        }
       },
       function(){ // call_back
         // create thumb
@@ -299,15 +304,23 @@ $(function() {
   });
 
   $('#slide').click(function(){
-    socket.emit('select_file',slideList.next());
+    slideList.next();
   });
 
   $('#slide-prev').click(function(){
-    socket.emit('select_file',slideList.prev());
+    slideList.prev();
   });
 
   $('#slide-next').click(function(){
-    socket.emit('select_file',slideList.next());
+    slideList.next();
+  });
+
+  $('#slide-first').click(function(){
+    slideList.first();
+  });
+
+  $('#slide-last').click(function(){
+    slideList.last();
   });
 
   $('#slide').mousemove(function(e){
@@ -317,14 +330,6 @@ $(function() {
     var y_per = parseInt(y / $(this).height() * 1000);
 
     socket.emit('mouse_pointer',{ x_per: x_per ,y_per: y_per });
-  });
-
-  $('#slide-first').click(function(){
-    slideList.first();
-  });
-
-  $('#slide-last').click(function(){
-    slideList.last();
   });
 
   $('#slide').mouseout(function(e){
