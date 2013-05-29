@@ -36,6 +36,13 @@ body {
   -webkit-box-shadow: 3px 3px 8px #666;
 }
 
+#progress_num {
+  color: white;
+  font-size: 50pt;
+  margin: 50px 0;
+  font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+}
+
 .pointer-item {
   cursor: pointer;
 }

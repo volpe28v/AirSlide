@@ -24,7 +24,7 @@ var slideListJpg = function(){
       if ( current_no < 0 ){ current_no = 0; }
       if ( current_no >= file_list.length ){ current_no = file_list.length - 1; }
 
-      select_action_handler(current_no);
+      select_action_handler(current_no, file_list.length);
     },
     get_by: function(no){
       return dir_name + "/" + file_list[no];
@@ -126,7 +126,7 @@ var slideListPdf = function(){
       if ( current_no < 0 ){ current_no = 0; }
       if ( current_no >= file_length ){ current_no = file_length - 1; }
 
-      select_action_handler(current_no);
+      select_action_handler(current_no, file_length);
     },
     next: function(){
       this.set_current(current_no + 1);
@@ -258,14 +258,15 @@ $(function() {
       function(no){ // move_handler
         $('#slider-code').tinycarousel_move(no);
       },
-      function(no){ // select_hander
+      function(no, total){ // select_hander
         $('.thumb').addClass("normal-thumb");
         $('.thumb').removeClass("current-thumb");
         $('#thumb_' + no).addClass("current-thumb");
+        $('#progress_num').html((no + 1) + "/" + total);
+        socket.emit('select_file',slideList.current());
       },
       function(){ // call_back
-        var slide_num = slideList.get_num();
-
+        // create thumb
         $('#thumb-list').empty();
         slideList.get_all_dom(function(all_dom){
           for(var i = 0; i < all_dom.length; i++){
@@ -274,12 +275,12 @@ $(function() {
               var no = i;
               return function(){
                 slideList.set_current(no);
-                socket.emit('select_file',slideList.current());
               }
             }());
             $('#thumb-list').append(thumb);
           }
           $('#slider-code').tinycarousel({display: 1, duration: 500});
+          $('#progress_num').html("0/" + all_dom.length);
         });
       }
     );
