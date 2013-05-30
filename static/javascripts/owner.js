@@ -277,9 +277,10 @@ $(function() {
         }
       },
       function(){ // call_back
-        slideList.set_first();
         // create thumb
         $('#thumb-list').empty();
+        $('#slide-main').fadeOut();
+        $('#progress_num').fadeOut();
         slideList.get_all_dom(function(all_dom){
           for(var i = 0; i < all_dom.length; i++){
             var thumb = $('<li/>').append(all_dom[i].attr('id',"thumb_" + i).addClass("thumb normal-thumb").addClass("pointer-item"));
@@ -292,6 +293,9 @@ $(function() {
             $('#thumb-list').append(thumb);
           }
           $('#slider-code').tinycarousel({display: 1, duration: 500});
+          slideList.set_first();
+          $('#slide-main').fadeIn();
+          $('#progress_num').fadeIn();
         });
       }
     );
