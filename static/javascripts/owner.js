@@ -26,6 +26,9 @@ var slideListJpg = function(){
 
       select_action_handler(current_no, file_list.length);
     },
+    set_first: function(){
+      this.set_current(0);
+    },
     get_by: function(no){
       return dir_name + "/" + file_list[no];
     },
@@ -129,6 +132,9 @@ var slideListPdf = function(){
       if ( current_no >= file_length ){ current_no = file_length - 1; }
 
       select_action_handler(current_no, file_length);
+    },
+    set_first: function(){
+      this.set_current(0);
     },
     next: function(){
       this.set_current(current_no + 1);
@@ -263,14 +269,15 @@ $(function() {
       },
       function(progress, total){ // loading_handler
         // for progress bar 
-        $('#progress_bar').fadeIn('fast');
+        $('#loading_thumb').fadeIn('fast');
         $('#loading_progress_bar').css('width',(progress * 100 / (total) + "%"));
 
         if (progress == total){
-          $('#progress_bar').fadeOut('slow');
+          $('#loading_thumb').fadeOut('slow');
         }
       },
       function(){ // call_back
+        slideList.set_first();
         // create thumb
         $('#thumb-list').empty();
         slideList.get_all_dom(function(all_dom){
@@ -285,7 +292,6 @@ $(function() {
             $('#thumb-list').append(thumb);
           }
           $('#slider-code').tinycarousel({display: 1, duration: 500});
-          $('#progress_num').html("0/" + all_dom.length);
         });
       }
     );
