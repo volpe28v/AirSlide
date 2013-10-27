@@ -17,6 +17,11 @@ console.log(' port : ' + port);
 var db_name = program.db_name || default_db;
 console.log(' db_name : ' + db_name);
 
+app.get('/', function(req, res) {
+    console.log('/');
+    res.render('viewer');
+});
+
 app.get('/owner', function(req, res) {
     console.log('/owner');
     res.render('owner');
