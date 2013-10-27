@@ -1,4 +1,3 @@
-var slideList = null;
 var slideListJpg = function(){
   var file_name = "";
 
@@ -67,8 +66,9 @@ var slideListPdf = function(){
   };
 }();
 
-
 $(function() {
+  var slideList = null;
+  var slide_width = $(window).width() * 0.8;
   var socket = new io.connect('/');
   socket.on('connect', function() {
     socket.emit('get_select_file');
@@ -100,7 +100,7 @@ $(function() {
       $('#slide-view').hide();
       $('#slide-view').empty();
       $('#slide-view').append($slide_img);
-      $slide_img.width($(window).width() * 0.8);
+      $slide_img.width(slide_width);
 
       $('#slide-view').fadeIn('normal',function(){
         $('#slide-view').width($slide_img.width());
@@ -136,6 +136,7 @@ $(function() {
 
   var resize_timer = 0;
   $(window).resize(function(){
+    slide_width = $(window).width() * 0.8;
     if ( resize_timer != 0 ){
       clearTimeout(resize_timer);
     }
@@ -145,6 +146,27 @@ $(function() {
       socket.emit('get_select_file');
       socket.emit('get_select_file');
     }, 500);
+  });
+
+  function resize_slide(target_width){
+    var $slide_img = slideList.get_core_dom().attr('id','slide-core');
+    $slide_img.width(target_width);
+    $('#slide-view').empty();
+    $('#slide-view').append($slide_img);
+    $('#slide-view').width($slide_img.width());
+    $('#slide-view').height($slide_img.height());
+    $('#slide-view').append($cursor);
+    $cursor.hide();
+  }
+
+  $("#size_plus").on('click', function(){
+    slide_width += 10;
+    resize_slide(slide_width);
+  });
+
+  $("#size_minus").on('click', function(){
+    slide_width -= 10;
+    resize_slide(slide_width);
   });
 });
 
