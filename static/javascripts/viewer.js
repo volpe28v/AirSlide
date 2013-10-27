@@ -151,11 +151,13 @@ $(function() {
   function resize_slide(target_width){
     var $slide_img = slideList.get_core_dom().attr('id','slide-core');
     $slide_img.width(target_width);
+    $('#slide-view').hide();
     $('#slide-view').empty();
     $('#slide-view').append($slide_img);
     $('#slide-view').width($slide_img.width());
     $('#slide-view').height($slide_img.height());
     $('#slide-view').append($cursor);
+    $('#slide-view').show();
     $cursor.hide();
   }
 
